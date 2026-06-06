@@ -1,8 +1,8 @@
 /**
  * Helper function - converts image files to base64 strings for local storage.
  *
- * @param {File} file - The image file to convert.
- * @returns {Promise<string>} A promise that resolves to the base64 string.
+ * @param file - The image file to convert.
+ * @returns A promise that resolves to the base64 string.
  * @throws {DOMException} If the file cannot be read.
  * @example
  * fileToBase64(myFile).then(base64 => {

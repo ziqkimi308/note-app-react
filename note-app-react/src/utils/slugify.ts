@@ -6,8 +6,8 @@
  * - Replaces non-alphanumeric characters with hyphens.
  * - Removes leading and trailing hyphens.
  *
- * @param {string} title - The input string to slugify.
- * @returns {string} A slugified version of the input string.
+ * @param title - The input string to slugify.
+ * @returns A slugified version of the input string.
  * @example
  * slugify("Hello World!") // "hello-world"
  * slugify("  React Router v7  ") // "react-router-v7"
@@ -17,5 +17,5 @@ export function slugify(title: string): string {
 		.toLowerCase()
 		.trim()
 		.replace(/[^a-z0-9]+/g, "-") // replace anything not alphabets or numbers to -
-		.replace(/(^-|-$)+/g, ""); // replace - at start or end with blank
+		.replace(/(^-|-$)+/g, ""); // removes leading and trailing hypens
 }
