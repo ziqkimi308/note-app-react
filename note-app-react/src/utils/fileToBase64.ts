@@ -1,5 +1,8 @@
 /**
  * Helper function - converts image files to base64 strings for local storage.
+ * 
+ * - FileReader is async without returning promise.
+ * - So we convert it into promise-based function.
  *
  * @param file - The image file to convert.
  * @returns A promise that resolves to the base64 string.

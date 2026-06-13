@@ -8,7 +8,7 @@ export const Header: React.FC = () => {
 				{/* space-x-3 adds left margin to every child except first one */}
 				<nav className="space-x-3">
 					<Link to="/" className="text-blue-600">Notes</Link>
-					<Link to="/" className="text-blue-600">New</Link>
+					<Link to="/new" className="text-blue-600">New</Link>
 				</nav>
 			</div>
 		</header>

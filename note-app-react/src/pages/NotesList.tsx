@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router";
+import { Link, useOutletContext } from "react-router";
 import { slugify } from "../utils/slugify";
+import type { Note } from "../types/Note";
 
 // type
 type NotesListProps = {
@@ -9,7 +10,10 @@ type NotesListProps = {
 };
 
 // actual function
-export const NotesList = ({ notes, onDelete }: NotesListProps) => {
+export const NotesList = () => {
+	// Retrieve 
+	const { notes, onDelete} = useOutletContext<NotesListProps>();
+
 	// search query
 	const [searchQuery, setSearchQuery] = useState<string>("");
 	// tag filter
