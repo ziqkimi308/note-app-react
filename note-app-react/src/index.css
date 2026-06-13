@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+* {
+	padding-inline: 10px;
+}
