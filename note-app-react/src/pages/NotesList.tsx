@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router";
+import { slugify } from "../utils/slugify";
 
 // type
 type NotesListProps = {
@@ -7,23 +9,151 @@ type NotesListProps = {
 };
 
 // actual function
-export const NotesList = ({notes, onDelete}: NotesListProps) => {
-	
+export const NotesList = ({ notes, onDelete }: NotesListProps) => {
 	// search query
 	const [searchQuery, setSearchQuery] = useState<string>("");
 	// tag filter
 	const [tagFilter, setTagFilter] = useState<string | null>(null);
 
-	// Everytime notes changes, tags memo function being executed
-	const tags = useMemo(()=>{
-		// set is data structure a collection of unique values
+	/**
+	 * Every time notes changes, this memo function is executed.
+	 *
+	 * Set is a data structure – a collection of unique values.
+	 *
+	 * Array.from() is static method that converts iterable data set to a real array.
+	 *
+	 * @returns {string[]} An array of unique tag names extracted from all notes.
+	 */
+	const tags = useMemo(() => {
 		const set = new Set<string>();
 
 		notes.forEach((n) => n.tags.forEach((t) => set.add(t)));
 
-		// array static method which converts iterables data set to real array
 		return Array.from(set);
 	}, [notes]);
 
-	
-}
+	/**
+	 * Filter notes with condition:
+	 * - If searchQuery is empty → return all notes; otherwise return notes whose title or content matches (case‑insensitive).
+	 * - If tagFilter is null → return all notes; otherwise return notes that include the selected tag.
+	 *
+	 * @returns {Note[]} The filtered array of notes.
+	 */
+	const filteredNotes = useMemo(() => {
+		// explicit return filter()
+		const result = notes.filter((n) => {
+			const matchesQuery =
+				searchQuery.trim() === "" ||
+				n.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				n.content.toLowerCase().includes(searchQuery.toLowerCase());
+
+			const matchesTag = !tagFilter || n.tags.includes(tagFilter);
+
+			return matchesQuery && matchesTag;
+		});
+
+		return result;
+	}, [notes, searchQuery, tagFilter]);
+
+	return (
+		<div>
+			<div className="flex gap-2 mb-4">
+				{/* search box */}
+				<input
+					value={searchQuery}
+					onChange={(e) => setSearchQuery(e.target.value)}
+					placeholder="Search notes..."
+					className="border p-2 rounded flex-1"
+				/>
+
+				{/* Tag filter dropdown list */}
+				<select
+					value={tagFilter ?? ""}
+					onChange={(e) => setTagFilter(e.target.value || null)}
+					className="border p-2 rounded"
+				>
+					{/* First option */}
+					<option value="">All tags</option>
+
+					{/* Remaining options */}
+					{tags.map((t) => (
+						<option key={t} value={t}>
+							{t}
+						</option>
+					))}
+				</select>
+
+				{/* Add new tag - bring to /new route */}
+				<Link to="/new" className="bg-blue-600 text-white px-3 py-1 rounded">
+					+ New
+				</Link>
+			</div>
+
+			{/* Filtered notes */}
+			{filteredNotes.length === 0 ? (
+				<p className="text-gray-600">No notes found.</p>
+			) : (
+				<div className="grid gap-4 md:grid-cols-2">
+					{filteredNotes
+						.slice()
+						.reverse()
+						.map((n) => (
+							<article key={n.id} className="bg-white p-4 rounded shadow">
+								{/* Image */}
+								{n.featuredImage && (
+									<img
+										src={n.featuredImage}
+										alt=""
+										className="w-full h-40 object-cover rounded mb-3"
+									/>
+								)}
+
+								{/* Title */}
+								<h3 className="text-lg font-medium">{n.title}</h3>
+
+								{/* Content */}
+								<p className="text-gray-700 mt-2">
+									{n.content.length > 140
+										? n.content.slice(0, 140) + "..."
+										: n.content}
+								</p>
+
+								{/* Another grouped items */}
+								<div className="mt-3 text-sm text-gray-500 flex items-center justify-between">
+									{/* Views */}
+									<div>Views: {n.views}</div>
+
+									{/* Links and Button */}
+									<div className="flex gap-3 items-center">
+										{/* View */}
+										<Link
+											to={`/note/${slugify(n.title)}`}
+											className="text-blue-600 hover:underline"
+										>
+											View
+										</Link>
+
+										{/* Edit */}
+										<Link
+											to={`/edit/${n.id}`}
+											className="text-yellow-600 hover:underline"
+										>
+											Edit
+										</Link>
+
+										{/* Delete */}
+										<button
+											onClick={() => onDelete(n.id)}
+											className="text-red-600 hover:underline"
+										>
+											Delete
+										</button>
+									</div>
+								</div>
+							</article>
+						))}
+				</div>
+			)}
+		</div>
+	);
+};
