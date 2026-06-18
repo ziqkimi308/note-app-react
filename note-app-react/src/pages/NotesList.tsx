@@ -107,12 +107,12 @@ export const NotesList = () => {
 						.map((n) => (
 							<article key={n.id} className="bg-white p-4 rounded shadow-2xl">
 								{/* Image */}
-								<div className="w-full h-40 rounded mb-3 flex items-center justify-center text-gray-400 text-sm">
+								<div className="w-full h-40 rounded mb-3 text-gray-400 text-sm border overflow-hidden">
 									{n.featuredImage ? (
 										<img
 											src={n.featuredImage}
 											alt=""
-											className="w-full h-full object-cover rounded"
+											className="block w-full h-full object-cover"
 										/>
 									) : (
 										<span></span> // optional placeholder text
@@ -123,11 +123,13 @@ export const NotesList = () => {
 								<h3 className="text-lg font-medium">{n.title}</h3>
 
 								{/* Content */}
-								<p className="text-gray-700 mt-2">
-									{n.content.length > 140
-										? n.content.slice(0, 140) + "..."
-										: n.content}
-								</p>
+								<div className="w-full h-20">
+									<p className="text-gray-700 mt-2">
+										{n.content.length > 140
+											? n.content.slice(0, 140) + "..."
+											: n.content}
+									</p>
+								</div>
 
 								{/* Another grouped items */}
 								<div className="mt-3 text-sm text-gray-500 flex items-center justify-between">
