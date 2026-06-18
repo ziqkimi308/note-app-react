@@ -11,8 +11,8 @@ type NotesListProps = {
 
 // actual function
 export const NotesList = () => {
-	// Retrieve 
-	const { notes, deleteNote} = useOutletContext<NotesListProps>();
+	// Retrieve
+	const { notes, deleteNote } = useOutletContext<NotesListProps>();
 
 	// search query
 	const [searchQuery, setSearchQuery] = useState<string>("");
@@ -88,7 +88,10 @@ export const NotesList = () => {
 				</select>
 
 				{/* Add new tag - bring to /new route */}
-				<Link to="/new" className="bg-blue-600 text-white px-3 py-1 rounded">
+				<Link
+					to="/new"
+					className="bg-blue-600 text-white px-3 py-1 rounded flex justify-center items-center"
+				>
 					+ New
 				</Link>
 			</div>
@@ -102,15 +105,19 @@ export const NotesList = () => {
 						.slice()
 						.reverse()
 						.map((n) => (
-							<article key={n.id} className="bg-white p-4 rounded shadow">
+							<article key={n.id} className="bg-white p-4 rounded shadow-2xl">
 								{/* Image */}
-								{n.featuredImage && (
-									<img
-										src={n.featuredImage}
-										alt=""
-										className="w-full h-40 object-cover rounded mb-3"
-									/>
-								)}
+								<div className="w-full h-40 rounded mb-3 flex items-center justify-center text-gray-400 text-sm">
+									{n.featuredImage ? (
+										<img
+											src={n.featuredImage}
+											alt=""
+											className="w-full h-full object-cover rounded"
+										/>
+									) : (
+										<span></span> // optional placeholder text
+									)}
+								</div>
 
 								{/* Title */}
 								<h3 className="text-lg font-medium">{n.title}</h3>
