@@ -6,13 +6,13 @@ import type { Note } from "../types/Note";
 // type
 type NotesListProps = {
 	notes: Note[];
-	onDelete: (id: string) => void; // function that takes a string but does not return anything
+	deleteNote: (id: string) => void; // function that takes a string but does not return anything
 };
 
 // actual function
 export const NotesList = () => {
 	// Retrieve 
-	const { notes, onDelete} = useOutletContext<NotesListProps>();
+	const { notes, deleteNote} = useOutletContext<NotesListProps>();
 
 	// search query
 	const [searchQuery, setSearchQuery] = useState<string>("");
@@ -147,7 +147,7 @@ export const NotesList = () => {
 
 										{/* Delete */}
 										<button
-											onClick={() => onDelete(n.id)}
+											onClick={() => deleteNote(n.id)}
 											className="text-red-600 hover:underline"
 										>
 											Delete
