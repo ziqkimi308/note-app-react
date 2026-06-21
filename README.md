@@ -4,7 +4,7 @@ A modern, responsive note-taking application built with **React**, **TypeScript*
 
 ## 🌐 Live Demo
 
-The application is deployed and hosted live at: **[note-app-ziqkimi.vercel.app](https://noteapp-ziqkimi.vercel.app)**
+The application is deployed and hosted live at: **[noteapp-ziqkimi.vercel.app](https://noteapp-ziqkimi.vercel.app)**
 
 ![App Demo](./demo.webp)
 
